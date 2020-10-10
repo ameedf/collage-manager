@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import SingleStudent from './SingleStudent';
+import {connect} from 'react-redux';
+
 
 class StudentsList extends Component {
 
@@ -18,8 +20,8 @@ class StudentsList extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.students.map((s, index) =>
-            <SingleStudent student={s} handleRemove={() => this.props.handleRemove(index)} />
+          {this.props.students.map((_, index) =>
+            <SingleStudent key={index} index={index} />
           )}
         </tbody>
       </table>
@@ -27,4 +29,9 @@ class StudentsList extends Component {
   }
 }
 
-export default StudentsList;
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  students: state.students,
+});
+
+export default connect(mapStateToProps, null)(StudentsList);

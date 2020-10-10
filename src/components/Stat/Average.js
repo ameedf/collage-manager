@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Average extends Component {
 
@@ -7,9 +8,7 @@ class Average extends Component {
     if (!students || students.length === 0) {
       return 0;
     }
-    console.log(students);
     let total = students.map(s => s.grade).reduce((tmp, grade) => tmp + grade);
-    console.log(total);
     return total / students.length;
   }
 
@@ -29,4 +28,8 @@ class Average extends Component {
   }
 }
 
-export default Average;
+const mapStateToProps = state => ({
+  students: state.students,
+});
+
+export default connect(mapStateToProps)(Average);

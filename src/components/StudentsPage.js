@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Statistics from './Stat/Statistics';
 import StudentsList from './StudentsList';
+import {studentAdded} from '../bl/actionsCreators';
 
 const initialStudentData = {
   name: 'ameed',
@@ -10,7 +12,6 @@ const initialStudentData = {
 class StudentsPage extends Component {
   state = {
     newStudent: this.copySingleStudent(initialStudentData),
-    students: [],
   }
 
   handleNameChanged(event) {
@@ -36,27 +37,16 @@ class StudentsPage extends Component {
   }
 
   addStudent() {
-    const students = this.copyStudents();
-    students.push(this.copySingleStudent(this.state.newStudent));
-    this.setState({ students, newStudent: this.copySingleStudent(initialStudentData) });
-  }
-
-  copyStudents() {
-    return this.state.students.map(s => (this.copySingleStudent(s)));
+    this.props.handleStudentAdded(this.state.newStudent);
+    this.setState({ newStudent: this.copySingleStudent(initialStudentData) });
   }
 
   copySingleStudent(student) {
     return { ...student };
   }
 
-  handleRemove(index) {
-    let students = this.copyStudents();
-    students = this.state.students.splice(index, 1);
-    this.setState(students);
-  }
-
   render() {
-    const students = this.state.students;
+    const students = this.props.students;
     const newStudent = this.state.newStudent;
     return (
       <table>
@@ -77,7 +67,7 @@ class StudentsPage extends Component {
             <td>
               <div>
                 <h1>Students list:</h1>
-                <StudentsList students={students} handleRemove={(index) => this.handleRemove(index)} />
+                <StudentsList />
               </div>
             </td>
             <td>
@@ -90,4 +80,12 @@ class StudentsPage extends Component {
   }
 }
 
-export default StudentsPage;
+const mapStateToProps = state => ({
+  students: state.students,
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleStudentAdded: (s) => dispatch(studentAdded(s))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StudentsPage);

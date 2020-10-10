@@ -9,9 +9,9 @@ class Statistics extends Component {
       <table>
         <tbody>
           <tr>
-            <td><Average students={this.props.students} /></td>
-            <td><Min students={this.props.students} /></td>
-            <td><Max students={this.props.students} /></td>
+            <td><Average /></td>
+            <td><Min /></td>
+            <td><Max /></td>
           </tr>
         </tbody>
       </table>

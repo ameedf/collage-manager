@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-class Average extends Component {
+class Max extends Component {
 
   studentsWithMaxGrade() {
     const students = this.props.students;
@@ -23,11 +24,15 @@ class Average extends Component {
           <tr><th>Max</th></tr>
         </thead>
         <tbody>
-          {this.studentsWithMaxGrade().map(name => <tr><td>{name}</td></tr>)}
+          {this.studentsWithMaxGrade().map((name, index) => <tr key={index}><td>{name}</td></tr>)}
         </tbody>
       </table>
     );
   }
 }
 
-export default Average;
+const mapStateToProps = state => ({
+  students: state.students,
+});
+
+export default connect(mapStateToProps)(Max);
